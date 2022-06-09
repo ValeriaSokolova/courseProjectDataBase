@@ -241,6 +241,30 @@ namespace КП_БД
 
             }
         }
+        public List<string> GetHumanByName(string name)
+        {
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                List<string> list = new List<string>();
+                DataTable dt = new DataTable();
+                cmd = new SqlCommand("select * from ЧЕЛОВЕК where ИМЯ = '"+name+" '", connection);
+                cmd.Parameters.AddWithValue("@id", name);
+                cmd.ExecuteNonQuery();
+                adapter.Fill(dt);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    list.Add(Convert.ToString(dr["ФАМИЛИЯ"]));
+                    list.Add(Convert.ToString(dr["ИМЯ"]));
+                    list.Add(Convert.ToString(dr["ОТЧЕСТВО"]));
+                    list.Add(Convert.ToString(dr["ПОЛ"]));
+                    list.Add(Convert.ToString(dr["ДАТА_РОЖДЕНИЯ"]));
+                }
+                connection.Close();
+                return list;
+
+            }
+        }
         public int getAdressId(string sity, int home, string street, int index, int flat)
         {
             if (sity != "" && street != "" )
@@ -394,6 +418,36 @@ namespace КП_БД
                 }
                 return -1;
 
+            }
+        }
+        public void DisplayPeopleInformAndWorkDataWithName(DataGridView dataGrid, string name)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                DataTable dt = new DataTable();
+                adapter = new SqlDataAdapter("SELECT ЧЕЛОВЕК.ИМЯ, ЧЕЛОВЕК.ФАМИЛИЯ, ЧЕЛОВЕК.ОТЧЕСТВО, ЧЕЛОВЕК.ДАТА_РОЖДЕНИЯ, ДОЛЖНОСТЬ.ДОЛЖНОСТЬ, " +
+                    "МЕСТО_РАБОТЫ.МЕСТО_РАБОТЫ, СТАТУС.СТАТУС FROM ЧЕЛОВЕК INNER JOIN ДОЛЖНОСТЬ ON ЧЕЛОВЕК.ДОЛЖНОСТЬ_id = ДОЛЖНОСТЬ.id_d " +
+                    "INNER JOIN  МЕСТО_РАБОТЫ ON  ЧЕЛОВЕК.МЕСТО_РАБОТЫ_id = МЕСТО_РАБОТЫ.id_m " +
+                    "INNER JOIN СТАТУС ON  ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c AND ЧЕЛОВЕК.ИМЯ = '" +name+"'", connectionString); /// дописать джоин он по адресу и еще 1 по 
+                adapter.Fill(dt);
+                dataGrid.DataSource = dt;
+                connection.Close();
+            }
+        }
+        public void DisplayPeopleInformAndWorkDataWithSername(DataGridView dataGrid, string sername)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                DataTable dt = new DataTable();
+                adapter = new SqlDataAdapter("SELECT ЧЕЛОВЕК.ИМЯ, ЧЕЛОВЕК.ФАМИЛИЯ, ЧЕЛОВЕК.ОТЧЕСТВО, ЧЕЛОВЕК.ДАТА_РОЖДЕНИЯ, ДОЛЖНОСТЬ.ДОЛЖНОСТЬ, " +
+                    "МЕСТО_РАБОТЫ.МЕСТО_РАБОТЫ, СТАТУС.СТАТУС FROM ЧЕЛОВЕК INNER JOIN ДОЛЖНОСТЬ ON ЧЕЛОВЕК.ДОЛЖНОСТЬ_id = ДОЛЖНОСТЬ.id_d " +
+                    "INNER JOIN  МЕСТО_РАБОТЫ ON  ЧЕЛОВЕК.МЕСТО_РАБОТЫ_id = МЕСТО_РАБОТЫ.id_m " +
+                    "INNER JOIN СТАТУС ON  ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c AND ЧЕЛОВЕК.ФАМИЛИЯ = '" + sername+"'", connectionString); /// дописать джоин он по адресу и еще 1 по 
+                adapter.Fill(dt);
+                dataGrid.DataSource = dt;
+                connection.Close();
             }
         }
         public void DeleteHumanByID(int id, DataGridView dataGrid)

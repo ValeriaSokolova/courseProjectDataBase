@@ -78,10 +78,23 @@ namespace КП_БД
         {
             b.DisplayPeopleInformAndWorkData(dataGridView1);
         }
-
+        // поиск по разным
         private void button5_Click(object sender, EventArgs e)
         {
-
+            if(radioButton1.Checked)
+            {
+                string name = textBox13.Text;
+                b.DisplayPeopleInformAndWorkDataWithName(dataGridView1,name);
+            }
+            else if (radioButton2.Checked)
+            {
+                string sername = textBox14.Text;
+                b.DisplayPeopleInformAndWorkDataWithSername(dataGridView1, sername);
+            }
+            else
+            {
+                MessageBox.Show("Выберете поиск по имени или фамилии");
+            }
         }
         // редактировать
         private void button4_Click(object sender, EventArgs e)
