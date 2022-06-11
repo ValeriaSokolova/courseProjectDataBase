@@ -76,6 +76,7 @@
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.label18 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
+            this.button6 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -287,6 +288,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // textBox7
             // 
@@ -503,11 +505,22 @@
             this.textBox11.Size = new System.Drawing.Size(100, 22);
             this.textBox11.TabIndex = 46;
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(505, 393);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(157, 50);
+            this.button6.TabIndex = 47;
+            this.button6.Text = "having";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Меню_администратора
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1001, 760);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.textBox11);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.comboBox4);
@@ -612,5 +625,6 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Button button6;
     }
 }

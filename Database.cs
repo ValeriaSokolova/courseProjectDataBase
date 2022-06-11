@@ -64,15 +64,34 @@ namespace КП_БД
             {
                 connection.Open();
                 DataTable dt = new DataTable();
-                adapter = new SqlDataAdapter("SELECT ЧЕЛОВЕК.ИМЯ, ЧЕЛОВЕК.ФАМИЛИЯ, ЧЕЛОВЕК.ОТЧЕСТВО, ЧЕЛОВЕК.ДАТА_РОЖДЕНИЯ, ДОЛЖНОСТЬ.ДОЛЖНОСТЬ, " +
+                adapter = new SqlDataAdapter("SELECT ЧЕЛОВЕК.ФАМИЛИЯ, ЧЕЛОВЕК.ИМЯ, ЧЕЛОВЕК.ОТЧЕСТВО, ЧЕЛОВЕК.ДАТА_РОЖДЕНИЯ, ДОЛЖНОСТЬ.ДОЛЖНОСТЬ, " +
                     "МЕСТО_РАБОТЫ.МЕСТО_РАБОТЫ, СТАТУС.СТАТУС FROM ЧЕЛОВЕК INNER JOIN ДОЛЖНОСТЬ ON ЧЕЛОВЕК.ДОЛЖНОСТЬ_id = ДОЛЖНОСТЬ.id_d " +
                     "INNER JOIN  МЕСТО_РАБОТЫ ON  ЧЕЛОВЕК.МЕСТО_РАБОТЫ_id = МЕСТО_РАБОТЫ.id_m " +
-                    "INNER JOIN СТАТУС ON  ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c ", connectionString); /// дописать джоин он по адресу и еще 1 по 
+                    "INNER JOIN СТАТУС ON  ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c " +
+                    "Order by ЧЕЛОВЕК.ФАМИЛИЯ ", connectionString); /// дописать джоин он по адресу и еще 1 по 
                 adapter.Fill(dt);
                 dataGrid.DataSource = dt;
                 connection.Close();
             }
         }
+
+
+        public void DisplayPeopleInformAndWorkDataWithConditionHaving(DataGridView dataGrid)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                DataTable dt = new DataTable();
+                DateTime date = new DateTime();
+                date = DateTime.Parse("2002.01.01");
+                adapter = new SqlDataAdapter("SELECT ФАМИЛИЯ, COUNT(ФАМИЛИЯ) AS КОЛИЧЕСТВО FROM ЧЕЛОВЕК GROUP BY ФАМИЛИЯ HAVING ФАМИЛИЯ = 'Астахов' ", connectionString);
+                adapter.Fill(dt);
+                dataGrid.DataSource = dt;
+                connection.Close();
+            }
+        }
+
+
         //public void DisplayAdressData(DataGridView dataGrid)
         //{
         //    using (SqlConnection connection = new SqlConnection(connectionString))
@@ -122,7 +141,7 @@ namespace КП_БД
                 adapter.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
-                    s.Add(  Convert.ToString(dr["МЕСТО_РАБОТЫ"]) );
+                    s.Add(Convert.ToString(dr["МЕСТО_РАБОТЫ"]) );
                 }
                 connection.Close();
                 return s;
@@ -224,9 +243,27 @@ namespace КП_БД
             {
                 List<string> list = new List<string>();
                 DataTable dt = new DataTable();
-                cmd = new SqlCommand("select * from ЧЕЛОВЕК where id_p = @id", connection);
-                cmd.Parameters.AddWithValue("@id", id);
-                cmd.ExecuteNonQuery();
+                /*
+                 
+                 SELECT ЧЕЛОВЕК.ИМЯ, ЧЕЛОВЕК.ФАМИЛИЯ, ЧЕЛОВЕК.ОТЧЕСТВО, ЧЕЛОВЕК.ДАТА_РОЖДЕНИЯ, ДОЛЖНОСТЬ.ДОЛЖНОСТЬ, " +
+                    "МЕСТО_РАБОТЫ.МЕСТО_РАБОТЫ, СТАТУС.СТАТУС FROM ЧЕЛОВЕК INNER JOIN ДОЛЖНОСТЬ ON ЧЕЛОВЕК.ДОЛЖНОСТЬ_id = ДОЛЖНОСТЬ.id_d " +
+                    "INNER JOIN  МЕСТО_РАБОТЫ ON  ЧЕЛОВЕК.МЕСТО_РАБОТЫ_id = МЕСТО_РАБОТЫ.id_m " +
+                    "INNER JOIN СТАТУС ON  ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c
+                 */
+                //, СТАТУС.СТАТУС
+                adapter = new SqlDataAdapter("select ЧЕЛОВЕК.ИМЯ, ЧЕЛОВЕК.ФАМИЛИЯ, ЧЕЛОВЕК.ОТЧЕСТВО, ЧЕЛОВЕК.ДАТА_РОЖДЕНИЯ, ЧЕЛОВЕК.ПОЛ, ДОЛЖНОСТЬ.ДОЛЖНОСТЬ, НОМЕР_ТЕЛЕФОНА.НОМЕР_ТЕЛЕФОНА, " +
+                    "МЕСТО_РАБОТЫ.МЕСТО_РАБОТЫ, АДРЕС.ГОРОД, АДРЕС.ИНДЕКС, АДРЕС.УЛИЦА, АДРЕС.ДОМ, АДРЕС.КВАРТИРА, СТАТУС.СТАТУС, ТЕЛЕФОН.ТИП_ТЕЛЕФОНА " +
+                    "from ЧЕЛОВЕК " +
+                    "INNER JOIN ДОЛЖНОСТЬ ON ЧЕЛОВЕК.ДОЛЖНОСТЬ_id = ДОЛЖНОСТЬ.id_d " +
+                    "INNER JOIN  МЕСТО_РАБОТЫ ON ЧЕЛОВЕК.МЕСТО_РАБОТЫ_id = МЕСТО_РАБОТЫ.id_m " +
+                    "INNER JOIN АДРЕС ON ЧЕЛОВЕК.АДРЕС_id = АДРЕС.id_h " +
+                    "INNER JOIN СТАТУС ON ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c " +
+                    "INNER JOIN НОМЕР_ТЕЛЕФОНА ON ЧЕЛОВЕК.НОМЕР_id = НОМЕР_ТЕЛЕФОНА.id_i " +
+                    "INNER JOIN ТЕЛЕФОН ON НОМЕР_ТЕЛЕФОНА.id_i = ТЕЛЕФОН.id_t " +
+                    "AND ЧЕЛОВЕК.id_p = " + id, connection);
+
+
+
                 adapter.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -235,6 +272,17 @@ namespace КП_БД
                     list.Add(Convert.ToString(dr["ОТЧЕСТВО"]));
                     list.Add(Convert.ToString(dr["ПОЛ"]));
                     list.Add(Convert.ToString(dr["ДАТА_РОЖДЕНИЯ"]));
+                    list.Add(Convert.ToString(dr["ДОЛЖНОСТЬ"]));
+                    list.Add(Convert.ToString(dr["МЕСТО_РАБОТЫ"]));
+
+                    list.Add(Convert.ToString(dr["ГОРОД"]));
+                    list.Add(Convert.ToString(dr["ДОМ"]));
+                    list.Add(Convert.ToString(dr["УЛИЦА"]));
+                    list.Add(Convert.ToString(dr["ИНДЕКС"]));
+                    list.Add(Convert.ToString(dr["КВАРТИРА"]));
+                    list.Add(Convert.ToString(dr["СТАТУС"]));
+                    list.Add(Convert.ToString(dr["НОМЕР_ТЕЛЕФОНА"]));
+                    list.Add(Convert.ToString(dr["ТИП_ТЕЛЕФОНА"]));
                 }
                 connection.Close();
                 return list;

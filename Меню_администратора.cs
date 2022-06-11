@@ -109,6 +109,16 @@ namespace КП_БД
                 textBox4.Text = human[2];
                 textBox5.Text = human[3];
                 textBox6.Text = human[4];
+                comboBox2.SelectedItem = human[5];
+                comboBox4.SelectedItem = human[6];
+                textBox7.Text = human[7];
+                textBox8.Text = human[8];
+                textBox9.Text = human[9];
+                textBox10.Text = human[10];
+                textBox11.Text = human[11];
+                comboBox1.SelectedItem = human[12];
+                textBox12.Text = human[13];
+                comboBox3.SelectedItem = human[14];
             }
             else if (tabControl1.SelectedIndex == 1)
             {
@@ -133,6 +143,17 @@ namespace КП_БД
 
 
 
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        // having
+        private void button6_Click(object sender, EventArgs e)
+        {
+            b.DisplayPeopleInformAndWorkDataWithConditionHaving(dataGridView1);
         }
     }
 }
