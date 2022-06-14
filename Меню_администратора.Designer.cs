@@ -77,6 +77,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -409,11 +410,11 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(318, 641);
+            this.button4.Location = new System.Drawing.Point(786, 467);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(133, 31);
+            this.button4.Size = new System.Drawing.Size(157, 54);
             this.button4.TabIndex = 35;
-            this.button4.Text = "Редактировать";
+            this.button4.Text = "Показать выбранную запись";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -515,11 +516,22 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(290, 632);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(161, 48);
+            this.button7.TabIndex = 48;
+            this.button7.Text = "Редактировать выбранную запись";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // Меню_администратора
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1001, 760);
+            this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.textBox11);
             this.Controls.Add(this.label18);
@@ -626,5 +638,6 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
     }
 }

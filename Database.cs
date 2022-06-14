@@ -232,6 +232,39 @@ namespace КП_БД
             {
                 MessageBox.Show("Введите данные");
             }
+        } 
+        
+        public void UpdateHuman(string sername, string first_name,  string patronymic, string sex, int mrID, int dolgID, int numTelID, int statusID, int adressID, DateTime date, int idHuman)
+        {
+            if (first_name != "" && sername != "")
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    cmd = new SqlCommand(
+                        "update ЧЕЛОВЕК SET ФАМИЛИЯ = @ФАМИЛИЯ, ИМЯ = @ИМЯ, ОТЧЕСТВО = @ОТЧЕСТВО, ПОЛ = @ПОЛ, ДАТА_РОЖДЕНИЯ =@ДАТА_РОЖДЕНИЯ, МЕСТО_РАБОТЫ_id = @МЕСТО_РАБОТЫ_id, ДОЛЖНОСТЬ_ID = @ДОЛЖНОСТЬ_ID, НОМЕР_ID = @НОМЕР_ID, СТАТУС_ID = @СТАТУС_ID, АДРЕС_ID = @АДРЕС_ID where id_p = @id", connection);
+                    connection.Open();
+                    cmd.Parameters.AddWithValue("@ФАМИЛИЯ", sername);
+                    cmd.Parameters.AddWithValue("@ИМЯ", first_name);
+                    cmd.Parameters.AddWithValue("@ОТЧЕСТВО", patronymic);
+                    cmd.Parameters.AddWithValue("@ПОЛ", sex);
+                    cmd.Parameters.AddWithValue("@ДАТА_РОЖДЕНИЯ", date);
+                    cmd.Parameters.AddWithValue("@МЕСТО_РАБОТЫ_id", mrID);
+                    cmd.Parameters.AddWithValue("@ДОЛЖНОСТЬ_ID", dolgID);
+                    cmd.Parameters.AddWithValue("@НОМЕР_ID", numTelID);
+                    cmd.Parameters.AddWithValue("@СТАТУС_ID", statusID);
+                    cmd.Parameters.AddWithValue("@АДРЕС_ID", adressID);
+                    cmd.Parameters.AddWithValue("@id", idHuman);
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                    MessageBox.Show("Изменено");
+                    //DisplayPeopleData(dataGrid);
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Введите данные");
+            }
         }
 
         //  разобраться с адаптером и кмд для запроса по гет айди 
