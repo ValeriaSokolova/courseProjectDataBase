@@ -12,12 +12,11 @@ namespace КП_БД
 {
     public partial class Меню_пользователя : Form
     {
-            Database b = new Database();
+        Database b = new Database();
         public Меню_пользователя()
         {
             InitializeComponent();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             b.DisplayPeopleInformAndWorkData(dataGridView1);

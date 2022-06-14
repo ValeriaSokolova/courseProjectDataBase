@@ -16,7 +16,6 @@ namespace КП_БД
         {
             InitializeComponent();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             if (checkBox1.Checked)

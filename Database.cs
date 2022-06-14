@@ -15,12 +15,10 @@ namespace КП_БД
         private SqlDataAdapter adapter;
         private SqlCommand cmd;
         public Database()
-        { }
+        {
 
-
-
+        }
         private string connectionString = @"Data Source = HOME-PC\SQLEXPRESS; Initial Catalog = SOKOLOVA;Integrated Security = True;";
-
         public void DisplayPeopleData(DataGridView dataGrid)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -33,7 +31,6 @@ namespace КП_БД
                 connection.Close();
             }
         }
-
         public void DisplayPeopleDataAndPhoneData(DataGridView dataGrid)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -75,8 +72,6 @@ namespace КП_БД
                 connection.Close();
             }
         }
-
-
         public void DisplayPeopleInformAndWorkDataWithConditionHaving(DataGridView dataGrid)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -91,45 +86,6 @@ namespace КП_БД
                 connection.Close();
             }
         }
-
-
-        //public void DisplayAdressData(DataGridView dataGrid)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-        //        DataTable dt = new DataTable();
-        //        adapter = new SqlDataAdapter("select * from АДРЕС", connectionString);
-        //        adapter.Fill(dt);
-        //        dataGrid.DataSource = dt;
-        //        connection.Close();
-        //    }
-        //}
-
-        //public void DisplayTelephoneData(DataGridView dataGrid)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-        //        DataTable dt = new DataTable();
-        //        adapter = new SqlDataAdapter("select * from НОМЕР_ТЕЛЕФОНА", connectionString);
-        //        adapter.Fill(dt);
-        //        dataGrid.DataSource = dt;
-        //        connection.Close();
-        //    }
-        //}
-        //public void DisplayHuman(DataGridView dataGrid)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(connectionString))
-        //    {
-        //        connection.Open();
-        //        DataTable dt = new DataTable();
-        //        adapter = new SqlDataAdapter("select * from ЧЕЛОВЕК", connectionString);
-        //        adapter.Fill(dt);
-        //        dataGrid.DataSource = dt;
-        //        connection.Close();
-        //    }
-        //}
         public List<string> getTypesOfWorkPlaces()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -148,7 +104,6 @@ namespace КП_БД
                 return s;
             }
         }
-
         public List<string> getTypesOfJobTitle()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -234,7 +189,6 @@ namespace КП_БД
                 MessageBox.Show("Введите данные");
             }
         } 
-        
         public void UpdateHuman(string sername, string first_name,  string patronymic, string sex, int mrID, int dolgID, int numTelID, int statusID, int adressID, DateTime date, int idHuman)
         {
             if (first_name != "" && sername != "")
@@ -267,9 +221,6 @@ namespace КП_БД
                 MessageBox.Show("Введите данные");
             }
         }
-
-        //  разобраться с адаптером и кмд для запроса по гет айди 
-        // либо сделать список списков для людей и там искать уже относительно всей таблицы в памяти
         public List<string> GetHuman(int id)
         {
 
@@ -277,27 +228,16 @@ namespace КП_БД
             {
                 List<string> list = new List<string>();
                 DataTable dt = new DataTable();
-                /*
-                 
-                 SELECT ЧЕЛОВЕК.ИМЯ, ЧЕЛОВЕК.ФАМИЛИЯ, ЧЕЛОВЕК.ОТЧЕСТВО, ЧЕЛОВЕК.ДАТА_РОЖДЕНИЯ, ДОЛЖНОСТЬ.ДОЛЖНОСТЬ, " +
-                    "МЕСТО_РАБОТЫ.МЕСТО_РАБОТЫ, СТАТУС.СТАТУС FROM ЧЕЛОВЕК INNER JOIN ДОЛЖНОСТЬ ON ЧЕЛОВЕК.ДОЛЖНОСТЬ_id = ДОЛЖНОСТЬ.id_d " +
-                    "INNER JOIN  МЕСТО_РАБОТЫ ON  ЧЕЛОВЕК.МЕСТО_РАБОТЫ_id = МЕСТО_РАБОТЫ.id_m " +
-                    "INNER JOIN СТАТУС ON  ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c
-                 */
-                //, СТАТУС.СТАТУС
                 adapter = new SqlDataAdapter("select ЧЕЛОВЕК.ИМЯ, ЧЕЛОВЕК.ФАМИЛИЯ, ЧЕЛОВЕК.ОТЧЕСТВО, ЧЕЛОВЕК.ДАТА_РОЖДЕНИЯ, ЧЕЛОВЕК.ПОЛ, ДОЛЖНОСТЬ.ДОЛЖНОСТЬ, НОМЕР_ТЕЛЕФОНА.НОМЕР_ТЕЛЕФОНА, " +
-                    "МЕСТО_РАБОТЫ.МЕСТО_РАБОТЫ, АДРЕС.ГОРОД, АДРЕС.ИНДЕКС, АДРЕС.УЛИЦА, АДРЕС.ДОМ, АДРЕС.КВАРТИРА, СТАТУС.СТАТУС, ТЕЛЕФОН.ТИП_ТЕЛЕФОНА " +
-                    "from ЧЕЛОВЕК " +
-                    "INNER JOIN ДОЛЖНОСТЬ ON ЧЕЛОВЕК.ДОЛЖНОСТЬ_id = ДОЛЖНОСТЬ.id_d " +
-                    "INNER JOIN  МЕСТО_РАБОТЫ ON ЧЕЛОВЕК.МЕСТО_РАБОТЫ_id = МЕСТО_РАБОТЫ.id_m " +
-                    "INNER JOIN АДРЕС ON ЧЕЛОВЕК.АДРЕС_id = АДРЕС.id_h " +
-                    "INNER JOIN СТАТУС ON ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c " +
-                    "INNER JOIN НОМЕР_ТЕЛЕФОНА ON ЧЕЛОВЕК.НОМЕР_id = НОМЕР_ТЕЛЕФОНА.id_i " +
-                    "INNER JOIN ТЕЛЕФОН ON НОМЕР_ТЕЛЕФОНА.id_i = ТЕЛЕФОН.id_t " +
-                    "AND ЧЕЛОВЕК.id_p = " + id, connection);
-
-
-
+                "МЕСТО_РАБОТЫ.МЕСТО_РАБОТЫ, АДРЕС.ГОРОД, АДРЕС.ИНДЕКС, АДРЕС.УЛИЦА, АДРЕС.ДОМ, АДРЕС.КВАРТИРА, СТАТУС.СТАТУС, ТЕЛЕФОН.ТИП_ТЕЛЕФОНА " +
+                "from ЧЕЛОВЕК " +
+                "INNER JOIN ДОЛЖНОСТЬ ON ЧЕЛОВЕК.ДОЛЖНОСТЬ_id = ДОЛЖНОСТЬ.id_d " +
+                "INNER JOIN  МЕСТО_РАБОТЫ ON ЧЕЛОВЕК.МЕСТО_РАБОТЫ_id = МЕСТО_РАБОТЫ.id_m " +
+                "INNER JOIN АДРЕС ON ЧЕЛОВЕК.АДРЕС_id = АДРЕС.id_h " +
+                "INNER JOIN СТАТУС ON ЧЕЛОВЕК.СТАТУС_id = СТАТУС.id_c " +
+                "INNER JOIN НОМЕР_ТЕЛЕФОНА ON ЧЕЛОВЕК.НОМЕР_id = НОМЕР_ТЕЛЕФОНА.id_i " +
+                "INNER JOIN ТЕЛЕФОН ON НОМЕР_ТЕЛЕФОНА.id_i = ТЕЛЕФОН.id_t " +
+                "AND ЧЕЛОВЕК.id_p = " + id, connection);
                 adapter.Fill(dt);
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -576,7 +516,6 @@ namespace КП_БД
                 }
             }
         }
-
         public void ExportWord(DataGridView DGV)
         {
             if (DGV.Rows.Count != 0)
