@@ -178,5 +178,15 @@ namespace КП_БД
             b.UpdateHuman(sername, first_name, patronymic, sex, mr_id, dolgn_id, number_id, status_id, adress_id, date, id);
 
         }
+        // word
+        private void button9_Click(object sender, EventArgs e)
+        {
+            b.ExportWord(dataGridView1);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            b.ExportExcel(dataGridView1);
+        }
     }
 }

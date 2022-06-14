@@ -20,6 +20,7 @@ namespace КП_БД
 
 
         private string connectionString = @"Data Source = HOME-PC\SQLEXPRESS; Initial Catalog = SOKOLOVA;Integrated Security = True;";
+
         public void DisplayPeopleData(DataGridView dataGrid)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -549,5 +550,80 @@ namespace КП_БД
             DeletePhoneNumberById(phoneNumberId);
             DisplayPeopleData(dataGrid);
         }
+        public void ExportExcel(DataGridView dataGrid)
+        {
+            Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+            // создаем новый WorkBook
+            Microsoft.Office.Interop.Excel._Workbook workbook =
+            app.Workbooks.Add(Type.Missing);
+            // новый Excelsheet в workbook
+            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+            app.Visible = true;
+            worksheet = workbook.Sheets["Sheet1"];
+            worksheet = workbook.ActiveSheet;
+            // задаем имя для worksheet
+            worksheet.Name = "Exported from gridview";
+            for (int i = 1; i < dataGrid.Columns.Count + 1; i++)
+            {
+                worksheet.Cells[1, i] = dataGrid.Columns[i - 1].HeaderText;
+            }
+            for (int i = 0; i < dataGrid.Rows.Count - 1; i++)
+            {
+                for (int j = 0; j < dataGrid.Columns.Count; j++)
+                {
+                    worksheet.Cells[i + 2, j + 1] =
+                    dataGrid.Rows[i].Cells[j].Value.ToString();
+                }
+            }
+        }
+
+        public void ExportWord(DataGridView DGV)
+        {
+            if (DGV.Rows.Count != 0)
+            {
+                int RowCount = DGV.Rows.Count;
+                int ColumnCount = DGV.Columns.Count;
+                Object[,] DataArray = new object[RowCount + 1, ColumnCount + 1];
+                //добавим поля и колонки
+                int r = 0;
+                for (int c = 0; c <= ColumnCount - 1; c++)
+                {
+                    for (r = 0; r <= RowCount - 1; r++)
+                    {
+                        DataArray[r, c] = DGV.Rows[r].Cells[c].Value;
+                    }
+                }
+                Microsoft.Office.Interop.Word.Document oDoc = new
+                Microsoft.Office.Interop.Word.Document();
+                oDoc.Application.Visible = true;
+                //страницы
+                oDoc.PageSetup.Orientation =
+                Microsoft.Office.Interop.Word.WdOrientation.wdOrientLandscape;
+                dynamic oRange = oDoc.Content.Application.Selection.Range;
+                string oTemp = "";
+                for (r = 0; r <= RowCount - 1; r++)
+                {
+                    for (int c = 0; c <= ColumnCount - 1; c++)
+                    {
+                        oTemp = oTemp + DataArray[r, c] + "\t";
+                    }
+                }
+                //формат таблиц
+                oRange.Text = oTemp;
+                object Separator =
+                Microsoft.Office.Interop.Word.WdTableFieldSeparator.wdSeparateByTabs;
+                object ApplyBorders = true;
+                object AutoFit = true;
+                object AutoFitBehavior =
+                Microsoft.Office.Interop.Word.WdAutoFitBehavior.wdAutoFitContent;
+                oRange.ConvertToTable(ref Separator, ref RowCount, ref ColumnCount,
+                Type.Missing, Type.Missing, ref ApplyBorders,
+                Type.Missing, Type.Missing, Type.Missing,
+                Type.Missing, Type.Missing, Type.Missing,
+                Type.Missing, ref AutoFit, ref AutoFitBehavior,
+                oRange.Select());
+            }
+        }
     }
 }
+
